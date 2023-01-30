@@ -51,4 +51,36 @@ public class CatalogItemRepository : ICatalogItemRepository
 
         return item.Entity.Id;
     }
+
+    public async Task<CatalogItem> GetByIdAsync(int id)
+    {
+        var item = await _dbContext.CatalogItems.FindAsync(id);
+        return item!;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByBrandAsync(string brand)
+    {
+        brand = brand.ToLower();
+
+        var items = await _dbContext.CatalogItems
+            .Where(c => c.CatalogBrand.Brand.ToLower().Equals(brand))
+            .Include(i => i.CatalogBrand)
+            .Include(i => i.CatalogType)
+            .ToListAsync();
+
+        return items!;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByTypeAsync(string type)
+    {
+        type = type.ToLower();
+
+        var items = await _dbContext.CatalogItems
+            .Where(c => c.CatalogType.Type.ToLower().Equals(type))
+            .Include(i => i.CatalogBrand)
+            .Include(i => i.CatalogType)
+            .ToListAsync();
+
+        return items!;
+    }
 }

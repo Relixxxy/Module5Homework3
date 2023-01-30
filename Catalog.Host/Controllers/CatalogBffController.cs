@@ -31,4 +31,49 @@ public class CatalogBffController : ControllerBase
         var result = await _catalogService.GetCatalogItemsAsync(request.PageSize, request.PageIndex);
         return Ok(result);
     }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(CatalogItemDto), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetById(IntParameterRequest request)
+    {
+        var result = await _catalogService.GetCatalogByIdAsync(request.Parameter);
+
+        if (result is not null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(new ErrorResponse { Message = "Catalog not found!" });
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(ItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetByBrand(StringParameterRequest request)
+    {
+        var result = await _catalogService.GetCatalogByBrandAsync(request.Parameter);
+
+        if (result is not null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(new ErrorResponse { Message = "Catalogs not found!" });
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(ItemsResponse<CatalogItemDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetByType(StringParameterRequest request)
+    {
+        var result = await _catalogService.GetCatalogByTypeAsync(request.Parameter);
+
+        if (result is not null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(new ErrorResponse { Message = "Catalogs not found!" });
+    }
 }
