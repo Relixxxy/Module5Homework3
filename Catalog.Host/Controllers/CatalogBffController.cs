@@ -76,4 +76,34 @@ public class CatalogBffController : ControllerBase
 
         return BadRequest(new ErrorResponse { Message = "Catalogs not found!" });
     }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(ItemsResponse<CatalogBrandDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetBrands()
+    {
+        var result = await _catalogService.GetCatalogBrandsAsync();
+
+        if (result is not null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(new ErrorResponse { Message = "Catalogs not found!" });
+    }
+
+    [HttpPost]
+    [ProducesResponseType(typeof(ItemsResponse<CatalogTypeDto>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
+    public async Task<IActionResult> GetTypes()
+    {
+        var result = await _catalogService.GetCatalogTypesAsync();
+
+        if (result is not null)
+        {
+            return Ok(result);
+        }
+
+        return BadRequest(new ErrorResponse { Message = "Catalogs not found!" });
+    }
 }

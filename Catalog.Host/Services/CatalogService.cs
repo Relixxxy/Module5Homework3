@@ -10,16 +10,22 @@ namespace Catalog.Host.Services;
 public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogService
 {
     private readonly ICatalogItemRepository _catalogItemRepository;
+    private readonly ICatalogBrandRepository _catalogBrandRepository;
+    private readonly ICatalogTypeRepository _catalogTypeRepository;
     private readonly IMapper _mapper;
 
     public CatalogService(
         IDbContextWrapper<ApplicationDbContext> dbContextWrapper,
         ILogger<BaseDataService<ApplicationDbContext>> logger,
         ICatalogItemRepository catalogItemRepository,
+        ICatalogBrandRepository catalogBrandRepository,
+        ICatalogTypeRepository catalogTypeRepository,
         IMapper mapper)
         : base(dbContextWrapper, logger)
     {
         _catalogItemRepository = catalogItemRepository;
+        _catalogBrandRepository = catalogBrandRepository;
+        _catalogTypeRepository = catalogTypeRepository;
         _mapper = mapper;
     }
 
@@ -70,6 +76,34 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
             var response = new ItemsResponse<CatalogItemDto>()
             {
                 Items = items.Select(_mapper.Map<CatalogItemDto>)
+            };
+
+            return response!;
+        });
+    }
+
+    public async Task<ItemsResponse<CatalogBrandDto>> GetCatalogBrandsAsync()
+    {
+        return await ExecuteSafeAsync(async () =>
+        {
+            var items = await _catalogBrandRepository.GetBrandsAsync();
+            var response = new ItemsResponse<CatalogBrandDto>()
+            {
+                Items = items.Select(_mapper.Map<CatalogBrandDto>)
+            };
+
+            return response!;
+        });
+    }
+
+    public async Task<ItemsResponse<CatalogTypeDto>> GetCatalogTypesAsync()
+    {
+        return await ExecuteSafeAsync(async () =>
+        {
+            var items = await _catalogTypeRepository.GetTypesAsync();
+            var response = new ItemsResponse<CatalogTypeDto>()
+            {
+                Items = items.Select(_mapper.Map<CatalogTypeDto>)
             };
 
             return response!;
