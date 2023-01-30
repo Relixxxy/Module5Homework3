@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{B68B5C17-7C6F-4F8C-B504-D08255BD0D62}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{C89EECDC-C588-4EC0-A713-9EC5498DA2BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{20A916EE-A262-44B0-8F22-19EFD381101B}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		settings.ruleset = settings.ruleset
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.Host", "Catalog.Host\Catalog.Host.csproj", "{B8CC41A3-77BE-4161-8889-5BE3880220E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{0D9A9295-BD11-495A-B86C-8E6EE2823E5B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B8CC41A3-77BE-4161-8889-5BE3880220E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8CC41A3-77BE-4161-8889-5BE3880220E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8CC41A3-77BE-4161-8889-5BE3880220E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8CC41A3-77BE-4161-8889-5BE3880220E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D9A9295-BD11-495A-B86C-8E6EE2823E5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D9A9295-BD11-495A-B86C-8E6EE2823E5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D9A9295-BD11-495A-B86C-8E6EE2823E5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D9A9295-BD11-495A-B86C-8E6EE2823E5B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B8CC41A3-77BE-4161-8889-5BE3880220E5} = {B68B5C17-7C6F-4F8C-B504-D08255BD0D62}
+		{0D9A9295-BD11-495A-B86C-8E6EE2823E5B} = {C89EECDC-C588-4EC0-A713-9EC5498DA2BC}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51A01B5E-B568-4433-8BE1-13D35C3815E7}
+	EndGlobalSection
+EndGlobal
