@@ -1,5 +1,4 @@
 using System.Net;
-using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.Dtos;
 using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Response;
@@ -35,9 +34,9 @@ public class CatalogBffController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(CatalogItemDto), (int)HttpStatusCode.OK)]
     [ProducesResponseType(typeof(ErrorResponse), (int)HttpStatusCode.BadRequest)]
-    public async Task<IActionResult> GetById(IntParameterRequest request)
+    public async Task<IActionResult> GetById(IdRequest request)
     {
-        var result = await _catalogService.GetCatalogByIdAsync(request.Parameter);
+        var result = await _catalogService.GetCatalogByIdAsync(request.Id);
 
         if (result is not null)
         {
