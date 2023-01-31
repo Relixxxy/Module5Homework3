@@ -1,3 +1,5 @@
+using Catalog.Host.Helpers;
+using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +33,10 @@ public abstract class BaseDataService<T>
 
             await transaction.CommitAsync(cancellationToken);
         }
+        catch (NotFoundException)
+        {
+            throw;
+        }
         catch (Exception ex)
         {
             await transaction.RollbackAsync(cancellationToken);
@@ -49,6 +55,10 @@ public abstract class BaseDataService<T>
             await transaction.CommitAsync(cancellationToken);
 
             return result;
+        }
+        catch (NotFoundException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
