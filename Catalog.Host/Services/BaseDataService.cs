@@ -1,5 +1,4 @@
 using Catalog.Host.Helpers;
-using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
