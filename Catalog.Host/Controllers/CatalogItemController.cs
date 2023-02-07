@@ -1,9 +1,9 @@
 using System.Net;
-using Catalog.Host.Helpers;
 using Catalog.Host.Models.Requests;
 using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Infrastructure;
+using Infrastructure.Helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog.Host.Controllers;

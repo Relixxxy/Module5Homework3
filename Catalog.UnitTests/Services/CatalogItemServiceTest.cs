@@ -1,13 +1,5 @@
-﻿using AutoMapper;
-using Catalog.Host.Data;
-using Catalog.Host.Data.Entities;
-using Catalog.Host.Repositories.Interfaces;
-using Catalog.Host.Services;
-using Catalog.Host.Services.Interfaces;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Logging;
-using Moq;
+﻿using Catalog.Host.Data.Entities;
+using Infrastructure.Services.Interfaces;
 
 namespace Catalog.UnitTests.Services;
 
@@ -20,7 +12,7 @@ public class CatalogItemServiceTest
     private readonly Mock<ILogger<CatalogService>> _logger;
     private readonly Mock<IDbContextWrapper<ApplicationDbContext>> _dbContextWrapper;
 
-    private readonly CatalogItem _testItem = new CatalogItem()
+    private readonly CatalogItem _testItem = new ()
     {
         Id = 1,
         Name = "Name",
@@ -62,6 +54,104 @@ public class CatalogItemServiceTest
 
         // act
         var result = await _catalogService.Add(_testItem.Name, _testItem.Description, _testItem.Price, _testItem.AvailableStock, _testItem.CatalogBrandId, _testItem.CatalogTypeId, _testItem.PictureFileName);
+
+        // assert
+        result.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task AddAsync_Failed()
+    {
+        // arragne
+        int? testResult = null;
+
+        _catalogItemRepository.Setup(s => s.Add(
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            It.IsAny<decimal>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<string>())).ReturnsAsync(testResult);
+
+        // act
+        var result = await _catalogService.Add(_testItem.Name, _testItem.Description, _testItem.Price, _testItem.AvailableStock, _testItem.CatalogBrandId, _testItem.CatalogTypeId, _testItem.PictureFileName);
+
+        // assert
+        result.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_Success()
+    {
+        // arragne
+        var testResult = _testItem.Id;
+
+        _catalogItemRepository.Setup(s => s.Delete(It.IsAny<int>())).ReturnsAsync(testResult);
+
+        // act
+        var result = await _catalogService.Delete(_testItem.Id);
+
+        // assert
+        result.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task DeleteAsync_Failed()
+    {
+        // arragne
+        int? testResult = null;
+
+        _catalogItemRepository.Setup(s => s.Delete(It.IsAny<int>())).ReturnsAsync(testResult);
+
+        // act
+        var result = await _catalogService.Delete(_testItem.Id);
+
+        // assert
+        result.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task UpdateAsync_Success()
+    {
+        // arragne
+        var testResult = _testItem.Id;
+
+        _catalogItemRepository.Setup(s => s.Update(
+            It.IsAny<int>(),
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            It.IsAny<decimal>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<string>())).ReturnsAsync(testResult);
+
+        // act
+        var result = await _catalogService.Update(_testItem.Id, _testItem.Name, _testItem.Description, _testItem.Price, _testItem.AvailableStock, _testItem.CatalogBrandId, _testItem.CatalogTypeId, _testItem.PictureFileName);
+
+        // assert
+        result.Should().Be(testResult);
+    }
+
+    [Fact]
+    public async Task UpdateAsync_Failed()
+    {
+        // arragne
+        int? testResult = null;
+
+        _catalogItemRepository.Setup(s => s.Update(
+            It.IsAny<int>(),
+            It.IsAny<string>(),
+            It.IsAny<string>(),
+            It.IsAny<decimal>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<int>(),
+            It.IsAny<string>())).ReturnsAsync(testResult);
+
+        // act
+        var result = await _catalogService.Update(_testItem.Id, _testItem.Name, _testItem.Description, _testItem.Price, _testItem.AvailableStock, _testItem.CatalogBrandId, _testItem.CatalogTypeId, _testItem.PictureFileName);
 
         // assert
         result.Should().Be(testResult);

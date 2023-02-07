@@ -1,8 +1,8 @@
-using Catalog.Host.Services.Interfaces;
+using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
-namespace Catalog.Host.Services;
+namespace Infrastructure.Services;
 
 public class DbContextWrapper<T> : IDbContextWrapper<T>
     where T : DbContext

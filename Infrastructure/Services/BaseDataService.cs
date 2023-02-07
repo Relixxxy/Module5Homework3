@@ -1,8 +1,9 @@
-using Catalog.Host.Helpers;
-using Catalog.Host.Services.Interfaces;
+using Infrastructure.Helpers;
+using Infrastructure.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-namespace Catalog.Host.Services;
+namespace Infrastructure.Services;
 
 public abstract class BaseDataService<T>
     where T : DbContext

@@ -1,4 +1,4 @@
-﻿namespace Catalog.Host.Helpers
+﻿namespace Infrastructure.Helpers
 {
     public class NotFoundException : Exception
     {
