@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Helpers;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -50,5 +51,77 @@ public class CatalogItemRepository : ICatalogItemRepository
         await _dbContext.SaveChangesAsync();
 
         return item.Entity.Id;
+    }
+
+    public async Task<CatalogItem> GetByIdAsync(int id)
+    {
+        var item = await _dbContext.CatalogItems.FindAsync(id);
+        return item!;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByBrandAsync(string brand)
+    {
+        brand = brand.ToLower();
+
+        var items = await _dbContext.CatalogItems
+            .Where(c => c.CatalogBrand.Brand.ToLower().Equals(brand))
+            .Include(i => i.CatalogBrand)
+            .Include(i => i.CatalogType)
+            .ToListAsync();
+
+        return items!;
+    }
+
+    public async Task<IEnumerable<CatalogItem>> GetByTypeAsync(string type)
+    {
+        type = type.ToLower();
+
+        var items = await _dbContext.CatalogItems
+            .Where(c => c.CatalogType.Type.ToLower().Equals(type))
+            .Include(i => i.CatalogBrand)
+            .Include(i => i.CatalogType)
+            .ToListAsync();
+
+        return items!;
+    }
+
+    public async Task<int?> Update(int id, string name, string description, decimal price, int availableStock, int catalogBrandId, int catalogTypeId, string pictureFileName)
+    {
+        var item = await _dbContext.CatalogItems.FindAsync(id);
+
+        CheckForNull(item);
+
+        item!.CatalogBrandId = catalogBrandId;
+        item!.CatalogTypeId = catalogTypeId;
+        item!.Description = description;
+        item!.Name = name;
+        item!.PictureFileName = pictureFileName;
+        item!.Price = price;
+        item!.AvailableStock = availableStock;
+        await _dbContext.SaveChangesAsync();
+
+        return id;
+    }
+
+    public async Task<int?> Delete(int id)
+    {
+        var item = await _dbContext.CatalogItems.FindAsync(id);
+
+        CheckForNull(item);
+
+        _dbContext.CatalogItems.Remove(item!);
+        await _dbContext.SaveChangesAsync();
+
+        return id;
+    }
+
+    private void CheckForNull(CatalogItem? item)
+    {
+        if (item is null)
+        {
+            string text = "Item is not found!";
+            _logger.LogError(text);
+            throw new NotFoundException(text);
+        }
     }
 }
