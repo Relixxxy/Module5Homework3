@@ -5,19 +5,36 @@ services:
     container_name: lde.catalog.api
     build:
       context: .
-      dockerfile: Catalog.Host/Dockerfile
+      dockerfile: Catalog/Catalog.Host/Dockerfile
     environment:
        - ASPNETCORE_ENVIRONMENT=Development
        - ASPNETCORE_URLS=http://+:5000
+       - ConnectionString=server=host.docker.internal;port=5433;database=catalog;uid=postgres;password=postgres;
     depends_on:
       - postgres
     ports:
       - 5000:5000
+  web.mvc:
+    container_name: lde.web.mvc
+    build:
+      context: .
+      dockerfile: Web/MVC/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5001
+      - CatalogUrl=http://host.docker.internal:5000/api/v1/catalogbff
+    depends_on:
+      - catalog.api
+    ports:
+      - 5001:5001
   nginx:
     image: nginx
     container_name: lde.nginx
     ports:
       - 80:80
+    volumes:
+      - ./Proxy/gateway/nginx/conf.d:/etc/nginx/conf.d
+      - ./Proxy/assets:/var/www/assets
   pgadmin4:
     image: dpage/pgadmin4
     container_name: lde.pgadmin4
@@ -35,7 +52,6 @@ services:
       POSTGRES_PASSWORD: postgres
     ports:
       - 5433:5432
-
 networks:
   default:
     driver: bridge
